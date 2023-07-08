@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Cluburi Sportive</title>
+  <link rel="stylesheet" href="" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div style="text-align: center;">
+  <h1 id="titlu" th:text="${titlu}"/>
+</div>
+
+<div class="container">
+
+<table id="tableEchipe">
+  <thead>
+  <td>Id</td>
+  <td>Nume</td>
+  <td>Numar Jucatori</td>
+  <td>Vechime</td>
+  <td>Trofee</td>
+  </thead>
+  <tbody>
+  <tr th:each="club : ${cluburi}">
+    <td th:text="${club.id}"/>
+    <td th:text="${club.nume}"/>
+    <td th:text="${club.nrJucatori}"/>
+    <td th:text="${club.vechime}"/>
+    <td th:text="${club.trofee}"/>
+  </tr>
+  </tbody>
+</table>
+
+</div>
+
+</body>
+</html>
