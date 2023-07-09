@@ -24,7 +24,7 @@
   <tbody>
   <tr th:each="club : ${cluburi}">
     <td th:text="${club.id}"/>
-    <td th:text="${club.nume}"/>
+    <td> <a th:href="@{/clubsportiv/{id}(id=${club.id})}" th:text="${club.nume}"></a></td>
     <td th:text="${club.nrJucatori}"/>
     <td th:text="${club.vechime}"/>
     <td th:text="${club.trofee}"/>
@@ -33,6 +33,7 @@
 </table>
 
 </div>
+
 
 </body>
 </html>
