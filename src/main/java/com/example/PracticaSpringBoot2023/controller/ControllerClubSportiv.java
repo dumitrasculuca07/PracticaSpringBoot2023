@@ -40,7 +40,7 @@ public class ControllerClubSportiv {
 
         ClubSportiv c1 = new ClubSportiv(1,5,"Liverpool","130 ani",50,listaJucatori1);
         ClubSportiv c2 = new ClubSportiv(2,5,"Manchester City","125 ani",30,listaJucatori2);
-        ClubSportiv c3 = new ClubSportiv(3,5,"Arsenal","135 ani",35,listaJucatori3);
+        ClubSportiv c3 = new ClubSportiv(3,5,"Arsenal","135 ani",33,listaJucatori3);
 
         return List.of(c1,c2,c3);
     }
