@@ -6,9 +6,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,7 @@ import java.util.Optional;
 @Controller
 public class ControllerClubSportiv {
 
+    static List <ClubSportiv> Cluburi = new ArrayList<>(getCluburi());
     public static List<ClubSportiv> getCluburi(){
 
         List<Jucatori> listaJucatori1 = new ArrayList<>();
@@ -51,7 +50,31 @@ public class ControllerClubSportiv {
         String text = "Cluburi Sportive";
         model.addAttribute("titlu",text);
         model.addAttribute("cluburi", getCluburi());
+
         return "clubsportiv";
     }
+
+    @GetMapping(value = "/clubsportiv/formclub")
+    public String getEmployeeForm(Model model) {
+        model.addAttribute("club", new ClubSportiv(Cluburi.size()+1,0,null,null,0,null));
+        return "formclub";
+    }
+
+    @PostMapping(value = "/clubsportiv")
+    public String submitClub(@ModelAttribute("club") ClubSportiv club, Model model) {
+
+        System.out.println(club.toString());
+
+        club.setId(Cluburi.size()+1);
+        Cluburi.add(club);
+
+        String text = "Cluburi Sportive";
+        model.addAttribute("titlu",text);
+        model.addAttribute("cluburi", Cluburi);
+
+        return "clubsportiv";
+    }
+
+
 
 }

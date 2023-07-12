@@ -16,12 +16,12 @@ import java.util.Optional;
 public class ControllerJucatori{
     @GetMapping("clubsportiv/{id}")
     public String showClubDetails(@PathVariable("id") int id, Model model) {
-        ClubSportiv club = ControllerClubSportiv.getCluburi().get(id-1);
+        ClubSportiv club = ControllerClubSportiv.Cluburi.get(id - 1);
 
         model.addAttribute("club", club);
         model.addAttribute("titlu", club.getNume());
         model.addAttribute("jucatori", club.getJucatori());
         return "jucatori";
-    }
 
+    }
 }

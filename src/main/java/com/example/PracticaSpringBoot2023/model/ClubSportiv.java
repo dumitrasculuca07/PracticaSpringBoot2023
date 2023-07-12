@@ -17,6 +17,8 @@ public class ClubSportiv {
     List<Jucatori> jucatori;
 
 
+
+
     public ClubSportiv(int id, int nrJucatori, String nume, String vechime, int trofee, List<Jucatori> jucatori) {
         this.id = id;
         this.nrJucatori = nrJucatori;
@@ -68,5 +70,17 @@ public class ClubSportiv {
 
     public Object getJucatori() {
         return this.jucatori;
+    }
+
+    @Override
+    public String toString() {
+        return "ClubSportiv{" +
+                "id=" + id +
+                ", nrJucatori=" + nrJucatori +
+                ", nume='" + nume + '\'' +
+                ", vechime='" + vechime + '\'' +
+                ", trofee=" + trofee +
+                ", jucatori=" + jucatori +
+                '}';
     }
 }
