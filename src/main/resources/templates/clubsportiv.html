@@ -4,20 +4,35 @@
   <meta charset="UTF-8">
   <title>Cluburi Sportive</title>
   <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 
 </head>
 <body>
 
-<div>
-  <a th:href="@{/clubsportiv/formclub}">
-    <button class="btn btn-primary">Adauga Club</button>
-  </a>
-  <h1 id="titlu" th:text="${titlu}"/>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+  <div class="row">
+
+    <div class="col col-1">
+      <a th:href="@{/clubsportiv/formclub}">
+        <button class="btn btn-warning" style="margin: 20px">Adaugă Club</button>
+      </a>
+    </div>
+
+    <div class="col col-10" style="text-align: center">
+      <h1 id="titlu" style="margin: 20px" th:text="${titlu}"/>
+    </div>
+    <div class="col col-1">
+
+    </div>
+  </div>
+  </div>
 </div>
+
 
 <div class="container-fluid">
 
-<table class="table table-dark">
+<table class="table table-warning">
   <thead>
   <td>Id</td>
   <td>Nume</td>

@@ -52,4 +52,15 @@ public class Jucatori {
     public void setVechime(int vechime) {
         this.vechime = vechime;
     }
+
+
+    @Override
+    public String toString() {
+        return "Jucatori{" +
+                "id=" + id +
+                ", nume='" + nume + '\'' +
+                ", varsta=" + varsta +
+                ", vechime=" + vechime +
+                '}';
+    }
 }

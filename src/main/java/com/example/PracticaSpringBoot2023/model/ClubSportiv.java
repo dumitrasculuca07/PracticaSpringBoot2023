@@ -14,10 +14,7 @@ public class ClubSportiv {
     private String nume;
     private String vechime;
     private int trofee;
-    List<Jucatori> jucatori;
-
-
-
+    public List<Jucatori> jucatori;
 
     public ClubSportiv(int id, int nrJucatori, String nume, String vechime, int trofee, List<Jucatori> jucatori) {
         this.id = id;
@@ -68,7 +65,7 @@ public class ClubSportiv {
         this.trofee = trofee;
     }
 
-    public Object getJucatori() {
+    public List<Jucatori> getJucatori() {
         return this.jucatori;
     }
 
