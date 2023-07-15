@@ -1,36 +1,43 @@
 package com.example.PracticaSpringBoot2023.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Entity
+@Table(name = "t_clubsportiv")
 public class ClubSportiv {
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int nrJucatori;
+
+    @Column(name = "nume")
     private String nume;
+
+    @Column(name = "vechime")
     private String vechime;
+
+    @Column(name = "nrjucatori")
+    private int nrJucatori;
+    @Column(name = "trofee")
     private int trofee;
+
+    @OneToMany(mappedBy = "clubsportiv")
     public List<Jucatori> jucatori;
 
-    public ClubSportiv(int id, int nrJucatori, String nume, String vechime, int trofee, List<Jucatori> jucatori) {
+
+    public ClubSportiv() {}
+
+    public ClubSportiv(int id, String nume, String vechime, int nrJucatori, int trofee) {
         this.id = id;
-        this.nrJucatori = nrJucatori;
         this.nume = nume;
         this.vechime = vechime;
+        this.nrJucatori = nrJucatori;
         this.trofee = trofee;
-        this.jucatori = jucatori;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getNrJucatori() {
@@ -39,6 +46,14 @@ public class ClubSportiv {
 
     public void setNrJucatori(int nrJucatori) {
         this.nrJucatori = nrJucatori;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNume() {
@@ -66,14 +81,17 @@ public class ClubSportiv {
     }
 
     public List<Jucatori> getJucatori() {
-        return this.jucatori;
+        return jucatori;
+    }
+
+    public void setJucatori(List<Jucatori> jucatori) {
+        this.jucatori = jucatori;
     }
 
     @Override
     public String toString() {
         return "ClubSportiv{" +
                 "id=" + id +
-                ", nrJucatori=" + nrJucatori +
                 ", nume='" + nume + '\'' +
                 ", vechime='" + vechime + '\'' +
                 ", trofee=" + trofee +
