@@ -51,12 +51,15 @@
     <td th:text="${club.vechime}"/>
     <td th:text="${club.trofee}"/>
     <td>
+      <div class="container-fluid" style="display: flex; justify-content: center; margin: 0px">
       <a th:href="@{/clubsportiv/{id}/editclubform(id=${club.id})}">
-        <button class="btn btn-warning"> EDIT </button>
+        <button class="btn btn-warning" style="margin: 5px">EDIT</button>
       </a>
+      <p></p>
        <a th:href="@{/clubsportiv/{id}/stergeClub(id=${club.id})}">
-      <button class="btn btn-danger"> DELETE </button>
+      <button class="btn btn-danger" style="margin: 5px">DELETE</button>
        </a>
+      </div>
     </td>
   </tr>
   </tbody>

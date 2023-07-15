@@ -67,7 +67,7 @@ public class ControllerClubSportiv {
         idStatic = club.getId();
 
         model.addAttribute("club",club);
-        System.out.println(club.getId());
+
         return "formclub";
     }
 
