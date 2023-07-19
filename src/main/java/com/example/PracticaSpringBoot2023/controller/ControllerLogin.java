@@ -17,6 +17,7 @@ public class ControllerLogin {
     @Autowired
     private AdminRepository adminRepository;
 
+    static int idStatic;
     @GetMapping(value ="/login")
     public String loginPage(Model model){
 

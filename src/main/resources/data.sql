@@ -26,3 +26,5 @@ values ('Jesus', 26, 2,3);
 
 insert into t_login(nume,parola)
 values ('Luca','parola');
+insert into t_login(nume,parola)
+values ('Mihai','1234');
