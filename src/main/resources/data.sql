@@ -23,3 +23,6 @@ insert into t_jucatori(nume, varsta, vechime, id_club)
 values ('Havertz', 24, 1,3);
 insert into t_jucatori(nume, varsta, vechime, id_club)
 values ('Jesus', 26, 2,3);
+
+insert into t_login(nume,parola)
+values ('Luca','parola');

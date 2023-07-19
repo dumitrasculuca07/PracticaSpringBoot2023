@@ -17,6 +17,7 @@ public class Jucatori {
     private String nume;
     @Column(name = "varsta")
     private int varsta;
+
     @Column(name = "vechime")
     private int vechime;
 

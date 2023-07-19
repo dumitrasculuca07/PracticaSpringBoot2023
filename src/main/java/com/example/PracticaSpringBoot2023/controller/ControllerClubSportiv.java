@@ -43,10 +43,6 @@ public class ControllerClubSportiv {
         return "clubsportiv";
     }
 
-
-
-
-
     //---------------
     // EDIT si ADAUGA
     //---------------
@@ -82,10 +78,8 @@ public class ControllerClubSportiv {
             clubSportivRepository.save(club);
             idStatic=0;
         }
-        String text = "Cluburi Sportive";
-        model.addAttribute("titlu",text);
-        model.addAttribute("cluburi", clubSportivRepository.findAll());
-        return "clubsportiv";
+
+        return "redirect:/clubsportiv";
     }
 
 
@@ -97,6 +91,7 @@ public class ControllerClubSportiv {
     public String deleteClub(@PathVariable("id") int id) {
 
         ClubSportiv club = clubSportivRepository.findById(id).get();
+
         List<Jucatori> totiJucatorii = jucatoriRepository.findAll();
 
         List<Jucatori> jucatoriiClubuluiRespectiv = totiJucatorii.stream()
@@ -106,6 +101,7 @@ public class ControllerClubSportiv {
         for(int i=0;i<jucatoriiClubuluiRespectiv.size();i++){
             jucatoriRepository.delete(jucatoriiClubuluiRespectiv.get(i));
         }
+
         clubSportivRepository.deleteById(id);
 
         return "redirect:/clubsportiv";

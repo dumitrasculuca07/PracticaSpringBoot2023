@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JucatoriRepository extends JpaRepository<Jucatori, Integer> {
-
-}
+public interface JucatoriRepository extends JpaRepository<Jucatori, Integer> {}

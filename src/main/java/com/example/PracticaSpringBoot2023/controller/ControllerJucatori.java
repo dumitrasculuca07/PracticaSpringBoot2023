@@ -25,6 +25,10 @@ public class ControllerJucatori{
     @Autowired
     private ClubSportivRepository clubSportivRepository;
 
+
+    //----------
+    // Overview
+    //----------
     @GetMapping("clubsportiv/{id}")
     public String showClubDetails(@PathVariable("id") int id, Model model) {
 
@@ -35,9 +39,6 @@ public class ControllerJucatori{
                 .filter(j -> j.getClubsportiv().getId() == club.getId())
                         .toList();
 
-        for(int i=0;i<jucatoriiClubuluiRespectiv.size();i++){
-            jucatoriiClubuluiRespectiv.get(i).setId(i+1);
-        }
 
         model.addAttribute("club", club);
         model.addAttribute("titlu", club.getNume());
@@ -45,12 +46,39 @@ public class ControllerJucatori{
         return "jucatori";
     }
 
+
+    //---------------
+    // EDIT si ADAUGA
+    //---------------
+    static int idStatic;
+    static int nrJucatori;
+    //Adauga:
     @GetMapping(value = "/clubsportiv/{id}/formjucatori")
     public String adaugaJucator(@PathVariable("id") int id,Model model){
 
         ClubSportiv club = clubSportivRepository.findById(id).get();
         model.addAttribute("club",club);
-        model.addAttribute("jucator", new Jucatori());
+
+        List<Jucatori> jucatori = jucatoriRepository.findAll();
+
+        Jucatori jucator = new Jucatori();  jucator.setClubsportiv(club);
+
+        idStatic = jucatori.get(jucatori.size()-1).getId()+1;
+        nrJucatori = club.getNrJucatori()+1;
+        model.addAttribute("jucator", jucator);
+
+        return "formjucatori";
+    }
+
+    //Edit:
+    @GetMapping(value = "/jucatori/{id}/editjucatorform")
+    public String editClub(@PathVariable("id") int id, Model model){
+
+        Jucatori jucator = jucatoriRepository.findById(id).get();
+        idStatic = jucator.getId();
+        nrJucatori = jucator.getClubsportiv().getNrJucatori();
+        model.addAttribute("jucator",jucator);
+        model.addAttribute("club",jucator.getClubsportiv());
 
         return "formjucatori";
     }
@@ -58,15 +86,39 @@ public class ControllerJucatori{
     @PostMapping(value = "/clubsportiv/{id}")
     public String adaugaJucatorSubmit(@ModelAttribute("jucator") Jucatori jucator, @PathVariable("id") int id, Model model){
 
-        ClubSportiv club = clubSportivRepository.findById(id).get();
-        model.addAttribute("club",club);
 
+        ClubSportiv club = clubSportivRepository.findById(id).get();
+
+        jucator.setId(idStatic);
         jucator.setClubsportiv(club);
-        club.setNrJucatori(club.getNrJucatori()+1);
+        jucatoriRepository.save(jucator);
+        idStatic=0;
+        if(nrJucatori!=0){
+            club.setNrJucatori(nrJucatori);
+            nrJucatori=0;
+        }
+
 
         clubSportivRepository.save(club);
-        jucatoriRepository.save(jucator);
+
         return String.format("redirect:/clubsportiv/%d", id);
+    }
+
+
+    //--------
+    // DELETE
+    //--------
+    @GetMapping(value = "/jucatori/{id}/stergeJucator")
+    public String stergeJucator(@PathVariable("id") int id){
+
+        Jucatori jucator = jucatoriRepository.findById(id).get();
+        int idClub = jucator.getClubsportiv().getId();
+        jucator.getClubsportiv().setNrJucatori(jucator.getClubsportiv().getNrJucatori()-1);
+
+        clubSportivRepository.save(jucator.getClubsportiv());
+        jucatoriRepository.delete(jucator);
+
+        return String.format("redirect:/clubsportiv/%d", idClub);
     }
 
 }

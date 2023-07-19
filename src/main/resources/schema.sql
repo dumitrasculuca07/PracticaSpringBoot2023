@@ -18,3 +18,11 @@ create table t_jucatori
     primary key (id),
     foreign key (id_club) references t_clubsportiv (id)
 );
+
+create table t_login
+(
+    id      integer auto_increment,
+    nume    varchar(50),
+    parola    varchar(50),
+    primary key (id)
+);
