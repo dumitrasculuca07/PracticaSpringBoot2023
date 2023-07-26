@@ -3,8 +3,15 @@ package com.example.PracticaSpringBoot2023.controller;
 
 import com.example.PracticaSpringBoot2023.Repository.ClubSportivRepository;
 import com.example.PracticaSpringBoot2023.Repository.JucatoriRepository;
+import com.example.PracticaSpringBoot2023.dto.ClubDto;
+import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
+import com.example.PracticaSpringBoot2023.dto.JucatoriDto;
+import com.example.PracticaSpringBoot2023.dto.JucatoriFormDto;
 import com.example.PracticaSpringBoot2023.model.ClubSportiv;
 import com.example.PracticaSpringBoot2023.model.Jucatori;
+import com.example.PracticaSpringBoot2023.service.ClubService;
+import com.example.PracticaSpringBoot2023.service.JucatoriService;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
@@ -21,9 +28,13 @@ import java.util.stream.Collectors;
 public class ControllerJucatori{
 
     @Autowired
-    private JucatoriRepository jucatoriRepository;
+    private JucatoriService jucatoriService;
+    @Autowired
+    private ClubService clubService;
     @Autowired
     private ClubSportivRepository clubSportivRepository;
+    @Autowired
+    private JucatoriRepository jucatoriRepository;
 
 
     //----------
@@ -32,11 +43,13 @@ public class ControllerJucatori{
     @GetMapping("clubsportiv/{id}")
     public String showClubDetails(@PathVariable("id") int id, Model model) {
 
-        ClubSportiv club = clubSportivRepository.findById(id).get();
-        List<Jucatori> totiJucatorii = jucatoriRepository.findAll();
 
-        List<Jucatori> jucatoriiClubuluiRespectiv = totiJucatorii.stream()
-                .filter(j -> j.getClubsportiv().getId() == club.getId())
+        ClubDto club = clubService.getAllClubs().get(id-1);
+
+        List<JucatoriDto> totiJucatorii = jucatoriService.getAllJucatori();
+
+        List<JucatoriDto> jucatoriiClubuluiRespectiv = totiJucatorii.stream()
+                .filter(j -> j.getClubId() == club.getId())
                         .toList();
 
 
@@ -52,20 +65,27 @@ public class ControllerJucatori{
     //---------------
     static int idStatic;
     static int nrJucatori;
+    static int ClubId;
+    static String numeClub;
+    static String vechimeClub;
+    static int trofeeClub;
     //Adauga:
     @GetMapping(value = "/clubsportiv/{id}/formjucatori")
     public String adaugaJucator(@PathVariable("id") int id,Model model){
 
-        ClubSportiv club = clubSportivRepository.findById(id).get();
+        ClubDto club = clubService.getAllClubs().get(id-1);
         model.addAttribute("club",club);
 
-        List<Jucatori> jucatori = jucatoriRepository.findAll();
-
-        Jucatori jucator = new Jucatori();  jucator.setClubsportiv(club);
-
+        JucatoriFormDto jucatoriFormDto = new JucatoriFormDto();
+        List<JucatoriDto> jucatori = jucatoriService.getAllJucatori();
+           jucatoriFormDto.setClubId(club.getId());
+        ClubId = club.getId();
         idStatic = jucatori.get(jucatori.size()-1).getId()+1;
         nrJucatori = club.getNrJucatori()+1;
-        model.addAttribute("jucator", jucator);
+        numeClub = club.getNume();
+        vechimeClub = club.getVechime();
+        trofeeClub = club.getTrofee();
+        model.addAttribute("jucator", jucatoriFormDto);
 
         return "formjucatori";
     }
@@ -74,39 +94,43 @@ public class ControllerJucatori{
     @GetMapping(value = "/jucatori/{id}/editjucatorform")
     public String editClub(@PathVariable("id") int id, Model model){
 
-        Jucatori jucator = jucatoriRepository.findById(id).get();
-        idStatic = jucator.getId();
-        nrJucatori = jucator.getClubsportiv().getNrJucatori();
-        model.addAttribute("jucator",jucator);
-        model.addAttribute("club",jucator.getClubsportiv());
+        JucatoriDto jucatoriDto = jucatoriService.getAllJucatori().get(id-1);
+        ClubDto clubDto = clubService.getAllClubs().get(jucatoriDto.getClubId()-1);
+        idStatic = jucatoriDto.getId();
+        nrJucatori = clubDto.getNrJucatori();
+        ClubId = clubDto.getId();
+        numeClub = clubDto.getNume();
+        vechimeClub = clubDto.getVechime();
+        trofeeClub = clubDto.getTrofee();
+        model.addAttribute("jucator",jucatoriDto);
+        model.addAttribute("club", clubDto);
 
         return "formjucatori";
     }
 
     @PostMapping(value = "/clubsportiv/{id}")
-    public String adaugaJucatorSubmit(@ModelAttribute("jucator") Jucatori jucator, @PathVariable("id") int id, Model model){
-
-
-        ClubSportiv club = clubSportivRepository.findById(id).get();
-
+    public String adaugaJucatorSubmit(@ModelAttribute("jucator") JucatoriFormDto jucator,ClubFormDto clubFormDto, @PathVariable("id") int id, Model model){
         jucator.setId(idStatic);
-        jucator.setClubsportiv(club);
-        jucatoriRepository.save(jucator);
-        idStatic=0;
-        if(nrJucatori!=0){
-            club.setNrJucatori(nrJucatori);
-            nrJucatori=0;
-        }
+        jucator.setClubId(ClubId);
+        jucatoriService.saveJucatori(jucator);
 
+        clubFormDto.setNrJucatori(nrJucatori);
+        clubFormDto.setNume(numeClub);
+        clubFormDto.setVechime(vechimeClub);
+        clubFormDto.setTrofee(trofeeClub);
+        clubService.saveClub(clubFormDto);
 
-        clubSportivRepository.save(club);
+        ClubId = 0;
+        idStatic = 0;
+        nrJucatori=0;
+
 
         return String.format("redirect:/clubsportiv/%d", id);
     }
 
 
     //--------
-    // DELETE
+    // DELETE   !!! NOT WORKING !!!
     //--------
     @GetMapping(value = "/jucatori/{id}/stergeJucator")
     public String stergeJucator(@PathVariable("id") int id){

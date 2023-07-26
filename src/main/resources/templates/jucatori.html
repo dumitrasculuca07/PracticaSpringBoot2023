@@ -25,7 +25,7 @@
                 </a>
             </div>
 
-            <div class="col col-8" style="text-align: center">
+            <div class="col col-6" style="text-align: center">
                 <h1 id="titlu" style="margin: 20px" th:text="${titlu}"/>
             </div>
             <div class="col col-3">
@@ -48,8 +48,8 @@
         <td>Actiune</td>
         </thead>
         <tbody>
-        <tr th:each="jucator : ${jucatori}">
-            <td class="w-25" th:text="${jucator.id}"/>
+        <tr th:each="jucator, iStat : ${jucatori}">
+            <td class="w-25" th:text="${iStat.index+1}"/>
             <td class="w-25" th:text="${jucator.nume}"/>
             <td class="w-25" th:text="${jucator.varsta}"/>
             <td class="w-25" th:text="${jucator.vechime}"/>

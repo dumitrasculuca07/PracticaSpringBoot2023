@@ -29,7 +29,7 @@ public class ControllerLogin {
     public String loginStatus(@ModelAttribute("login") Login login, Model model){
 
         Login loginUser = login;
-        Login loginDB = adminRepository.findById(1).get();
+        Login loginDB = adminRepository.findById(2).get();
 
         if(Objects.equals(loginUser.getNume(), loginDB.getNume()) &&
                 Objects.equals(loginUser.getParola(), loginDB.getParola())){

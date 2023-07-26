@@ -15,7 +15,7 @@
   <div class="row justify-content-md-center">
   <div class="row">
 
-    <div class="col col-1">
+    <div class="col col-3">
       <a th:href="@{/clubsportiv/formclub}">
         <button class="btn btn-warning" style="margin: 20px">Adaugă Club</button>
       </a>
@@ -23,10 +23,10 @@
 
 
 
-    <div class="col col-10" style="text-align: center">
+    <div class="col col-6" style="text-align: center">
       <h1 id="titlu" style="margin: 20px" th:text="${titlu}"/>
     </div>
-    <div class="col col-1">
+    <div class="col col-3">
 
     </div>
   </div>
@@ -43,15 +43,15 @@
   <td>Numar Jucatori</td>
   <td>Vechime</td>
   <td>Trofee</td>
-  <td>Acțiune</td>
+  <td>Actiune</td>
   </thead>
   <tbody>
-  <tr th:each="club : ${cluburi}">
-    <td th:text="${club.id}"/>
-    <td> <a th:href="@{/clubsportiv/{id}(id=${club.id})}" th:text="${club.nume}"></a></td>
-    <td th:text="${club.nrJucatori}"/>
-    <td th:text="${club.vechime}"/>
-    <td th:text="${club.trofee}"/>
+  <tr th:each="club, iStat : ${cluburi}">
+    <td class="w-25" th:text="${iStat.index+1}"/>
+    <td class="w-25" > <a th:href="@{/clubsportiv/{id}(id=${club.id})}" th:text="${club.nume}"></a></td>
+    <td class="w-25" th:text="${club.nrJucatori}"></td>
+    <td class="w-25" th:text="${club.vechime}"></td>
+    <td class="w-25" th:text="${club.trofee}"></td>
     <td>
       <div class="container-fluid" style="display: flex; justify-content: center; margin: 0px">
       <a th:href="@{/clubsportiv/{id}/editclubform(id=${club.id})}">

@@ -1,6 +1,8 @@
 package com.example.PracticaSpringBoot2023.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "t_clubsportiv")
+@AllArgsConstructor
+@Builder
 public class ClubSportiv {
 
 
