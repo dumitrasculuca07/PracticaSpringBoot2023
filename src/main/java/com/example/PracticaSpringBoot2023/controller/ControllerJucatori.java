@@ -44,7 +44,7 @@ public class ControllerJucatori{
     public String showClubDetails(@PathVariable("id") int id, Model model) {
 
 
-        ClubDto club = clubService.getAllClubs().get(id-1);
+        ClubDto club = clubService.findClubById(id);
 
         List<JucatoriDto> totiJucatorii = jucatoriService.getAllJucatori();
 
@@ -73,14 +73,24 @@ public class ControllerJucatori{
     @GetMapping(value = "/clubsportiv/{id}/formjucatori")
     public String adaugaJucator(@PathVariable("id") int id,Model model){
 
-        ClubDto club = clubService.getAllClubs().get(id-1);
+        ClubDto club = clubService.findClubById(id);
         model.addAttribute("club",club);
 
         JucatoriFormDto jucatoriFormDto = new JucatoriFormDto();
+
         List<JucatoriDto> jucatori = jucatoriService.getAllJucatori();
-           jucatoriFormDto.setClubId(club.getId());
+
+        jucatoriFormDto.setClubId(club.getId());
+
         ClubId = club.getId();
-        idStatic = jucatori.get(jucatori.size()-1).getId()+1;
+
+        if(jucatori.size() == 0){
+            idStatic = 1;
+        }
+        else{
+            idStatic = jucatori.get(jucatori.size()-1).getId()+1;
+        }
+
         nrJucatori = club.getNrJucatori()+1;
         numeClub = club.getNume();
         vechimeClub = club.getVechime();
@@ -94,8 +104,8 @@ public class ControllerJucatori{
     @GetMapping(value = "/jucatori/{id}/editjucatorform")
     public String editClub(@PathVariable("id") int id, Model model){
 
-        JucatoriDto jucatoriDto = jucatoriService.getAllJucatori().get(id-1);
-        ClubDto clubDto = clubService.getAllClubs().get(jucatoriDto.getClubId()-1);
+        JucatoriDto jucatoriDto = jucatoriService.findJucatorById(id);
+        ClubDto clubDto = clubService.findClubById(jucatoriDto.getClubId());
         idStatic = jucatoriDto.getId();
         nrJucatori = clubDto.getNrJucatori();
         ClubId = clubDto.getId();
@@ -130,7 +140,7 @@ public class ControllerJucatori{
 
 
     //--------
-    // DELETE   !!! NOT WORKING !!!
+    // DELETE
     //--------
     @GetMapping(value = "/jucatori/{id}/stergeJucator")
     public String stergeJucator(@PathVariable("id") int id){

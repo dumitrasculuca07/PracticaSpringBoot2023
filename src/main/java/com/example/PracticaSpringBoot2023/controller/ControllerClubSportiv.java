@@ -67,7 +67,7 @@ public class ControllerClubSportiv {
     @GetMapping(value = "/clubsportiv/{id}/editclubform")
     public String editClub(@PathVariable("id") int id, Model model){
 
-        ClubDto club = clubService.getAllClubs().get(id-1);
+        ClubDto club = clubService.findClubById(id);
         idStatic = club.getId();
         nrJucatori = club.getNrJucatori();
         model.addAttribute("club",club);
@@ -94,13 +94,13 @@ public class ControllerClubSportiv {
 
 
     //--------
-    // DELETE    !!! NOT WORKING !!! trimite pe link-ul gresit, daca pui manual in url id-ul corect, merge
+    // DELETE
     //--------
 
     @GetMapping(value = "/clubsportiv/{id}/stergeClub")
     public String deleteClub(@PathVariable("id") int id) {
 
-        ClubDto club = clubService.getAllClubs().get(id - 1);
+        ClubDto club = clubService.findClubById(id);
 
         List<JucatoriDto> totiJucatorii = jucatoriService.getAllJucatori();
 

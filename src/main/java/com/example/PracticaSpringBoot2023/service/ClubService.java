@@ -23,6 +23,9 @@ public class ClubService {
         return clubMapper.getClubDtoList(clubSportivList);
     }
 
+    public ClubDto findClubById(int id){
+        return clubMapper.mapToClubDto(clubSportivRepository.findById(id).get());
+    }
     public void saveClub(ClubFormDto clubFormDto) {
         ClubSportiv clubSportiv = clubMapper.mapToClub(clubFormDto);
         clubSportivRepository.save(clubSportiv);

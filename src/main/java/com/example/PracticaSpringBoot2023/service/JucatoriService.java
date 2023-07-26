@@ -27,7 +27,9 @@ public class JucatoriService {
         List<Jucatori> jucatoriList = jucatoriRepository.findAll();
         return jucatoriMapper.getJucatoriDtoList(jucatoriList);
     }
-
+    public JucatoriDto findJucatorById(int id){
+        return jucatoriMapper.mapToJucatoriDto(jucatoriRepository.findById(id).get());
+    }
     public void saveJucatori(JucatoriFormDto jucatoriFormDto) {
         Jucatori jucatori = jucatoriMapper.mapToJucatori(jucatoriFormDto);
         jucatoriRepository.save(jucatori);
