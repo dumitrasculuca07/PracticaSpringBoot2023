@@ -2,7 +2,6 @@ package com.example.PracticaSpringBoot2023.service;
 
 import com.example.PracticaSpringBoot2023.Repository.ClubSportivRepository;
 import com.example.PracticaSpringBoot2023.dto.ClubDto;
-import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
 import com.example.PracticaSpringBoot2023.mapper.ClubMapper;
 import com.example.PracticaSpringBoot2023.model.ClubSportiv;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,12 @@ public class ClubService {
     public ClubDto findClubById(int id){
         return clubMapper.mapToClubDto(clubSportivRepository.findById(id).get());
     }
-    public void saveClub(ClubFormDto clubFormDto) {
-        ClubSportiv clubSportiv = clubMapper.mapToClub(clubFormDto);
+    public void saveClub(ClubDto clubDto) {
+        ClubSportiv clubSportiv = clubMapper.mapToClub(clubDto);
         clubSportivRepository.save(clubSportiv);
     }
 
-    public void deleteClub(int clubId) {
+    public void deleteClubById(int clubId) {
         clubSportivRepository.deleteById(clubId);
 
     }

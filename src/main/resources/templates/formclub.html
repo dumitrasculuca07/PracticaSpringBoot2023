@@ -15,6 +15,8 @@
   </div>
 
   <form action="#" method="post" th:action="@{/clubsportiv}" th:object="${club}">
+    <input class="d-none" th:field="${club.id}" type="text">
+    <input class="d-none" th:field="${club.nrJucatori}" type="text">
     <div class="row col-lg-12">
 
       <div class="form-group row">

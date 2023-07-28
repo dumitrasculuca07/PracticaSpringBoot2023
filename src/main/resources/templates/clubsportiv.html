@@ -48,17 +48,17 @@
   <tbody>
   <tr th:each="club, iStat : ${cluburi}">
     <td class="w-25" th:text="${iStat.index+1}"/>
-    <td class="w-25" > <a th:href="@{/clubsportiv/{id}(id=${club.id})}" th:text="${club.nume}"></a></td>
+    <td class="w-25" > <a th:href="@{/clubsportiv/{id_url}(id_url=${club.id})}" th:text="${club.nume}"></a></td>
     <td class="w-25" th:text="${club.nrJucatori}"></td>
     <td class="w-25" th:text="${club.vechime}"></td>
     <td class="w-25" th:text="${club.trofee}"></td>
     <td>
       <div class="container-fluid" style="display: flex; justify-content: center; margin: 0px">
-      <a th:href="@{/clubsportiv/{id}/editclubform(id=${club.id})}">
+      <a th:href="@{/clubsportiv/{id_url}/editclubform(id_url=${club.id})}">
         <button class="btn btn-warning" style="margin: 5px">EDIT</button>
       </a>
       <p></p>
-       <a th:href="@{/clubsportiv/{id}/stergeClub(id=${club.id})}">
+       <a th:href="@{/clubsportiv/{id_url}/stergeClub(id_url=${club.id})}">
       <button class="btn btn-danger" style="margin: 5px">DELETE</button>
        </a>
       </div>

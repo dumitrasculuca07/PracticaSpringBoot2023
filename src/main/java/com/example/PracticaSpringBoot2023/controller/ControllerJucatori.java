@@ -1,31 +1,18 @@
 package com.example.PracticaSpringBoot2023.controller;
-
-
 import com.example.PracticaSpringBoot2023.Repository.ClubSportivRepository;
 import com.example.PracticaSpringBoot2023.Repository.JucatoriRepository;
 import com.example.PracticaSpringBoot2023.dto.ClubDto;
-import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
 import com.example.PracticaSpringBoot2023.dto.JucatoriDto;
-import com.example.PracticaSpringBoot2023.dto.JucatoriFormDto;
-import com.example.PracticaSpringBoot2023.model.ClubSportiv;
 import com.example.PracticaSpringBoot2023.model.Jucatori;
 import com.example.PracticaSpringBoot2023.service.ClubService;
 import com.example.PracticaSpringBoot2023.service.JucatoriService;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Controller
-public class ControllerJucatori{
+public class ControllerJucatori {
 
     @Autowired
     private JucatoriService jucatoriService;
@@ -56,6 +43,7 @@ public class ControllerJucatori{
         model.addAttribute("club", club);
         model.addAttribute("titlu", club.getNume());
         model.addAttribute("jucatori",jucatoriiClubuluiRespectiv);
+
         return "jucatori";
     }
 
@@ -63,81 +51,49 @@ public class ControllerJucatori{
     //---------------
     // EDIT si ADAUGA
     //---------------
-    static int idStatic;
-    static int nrJucatori;
-    static int ClubId;
-    static String numeClub;
-    static String vechimeClub;
-    static int trofeeClub;
+
     //Adauga:
-    @GetMapping(value = "/clubsportiv/{id}/formjucatori")
-    public String adaugaJucator(@PathVariable("id") int id,Model model){
+    @GetMapping(value = "/clubsportiv/{id_url}/formjucatori")
+    public String adaugaJucator(@PathVariable("id_url") int id_url,Model model){
 
-        ClubDto club = clubService.findClubById(id);
-        model.addAttribute("club",club);
-
-        JucatoriFormDto jucatoriFormDto = new JucatoriFormDto();
-
+        ClubDto club = clubService.findClubById(id_url);
         List<JucatoriDto> jucatori = jucatoriService.getAllJucatori();
 
-        jucatoriFormDto.setClubId(club.getId());
+        club.setNrJucatori(club.getNrJucatori()+1);
+        clubService.saveClub(club);
 
-        ClubId = club.getId();
+        model.addAttribute("club",club);
+        JucatoriDto jucatoriDto = new JucatoriDto();
+        jucatoriDto.setClubId(club.getId());
 
-        if(jucatori.size() == 0){
-            idStatic = 1;
-        }
-        else{
-            idStatic = jucatori.get(jucatori.size()-1).getId()+1;
-        }
-
-        nrJucatori = club.getNrJucatori()+1;
-        numeClub = club.getNume();
-        vechimeClub = club.getVechime();
-        trofeeClub = club.getTrofee();
-        model.addAttribute("jucator", jucatoriFormDto);
+        model.addAttribute("jucator", jucatoriDto);
 
         return "formjucatori";
     }
 
     //Edit:
-    @GetMapping(value = "/jucatori/{id}/editjucatorform")
-    public String editClub(@PathVariable("id") int id, Model model){
+    @GetMapping(value = "/jucatori/{id_url}/editjucatorform")
+    public String editClub(@PathVariable("id_url") int id_url, Model model){
 
-        JucatoriDto jucatoriDto = jucatoriService.findJucatorById(id);
-        ClubDto clubDto = clubService.findClubById(jucatoriDto.getClubId());
-        idStatic = jucatoriDto.getId();
-        nrJucatori = clubDto.getNrJucatori();
-        ClubId = clubDto.getId();
-        numeClub = clubDto.getNume();
-        vechimeClub = clubDto.getVechime();
-        trofeeClub = clubDto.getTrofee();
-        model.addAttribute("jucator",jucatoriDto);
+        JucatoriDto jucatorDto = jucatoriService.findJucatorById(id_url);
+        ClubDto clubDto = clubService.findClubById(jucatorDto.getClubId());
+
+        model.addAttribute("jucator", jucatorDto);
         model.addAttribute("club", clubDto);
 
         return "formjucatori";
     }
 
-    @PostMapping(value = "/clubsportiv/{id}")
-    public String adaugaJucatorSubmit(@ModelAttribute("jucator") JucatoriFormDto jucator,ClubFormDto clubFormDto, @PathVariable("id") int id, Model model){
-        jucator.setId(idStatic);
-        jucator.setClubId(ClubId);
+    @PostMapping(value = "/clubsportiv/{id_url}")
+    public String adaugaJucatorSubmit(@ModelAttribute("jucator") JucatoriDto jucator, @PathVariable("id_url") int id_url){
+
+        ClubDto club = clubService.findClubById(jucator.getClubId());
+        clubService.saveClub(club);
+
         jucatoriService.saveJucatori(jucator);
 
-        clubFormDto.setNrJucatori(nrJucatori);
-        clubFormDto.setNume(numeClub);
-        clubFormDto.setVechime(vechimeClub);
-        clubFormDto.setTrofee(trofeeClub);
-        clubService.saveClub(clubFormDto);
-
-        ClubId = 0;
-        idStatic = 0;
-        nrJucatori=0;
-
-
-        return String.format("redirect:/clubsportiv/%d", id);
+        return "redirect:/clubsportiv/"+id_url;
     }
-
 
     //--------
     // DELETE

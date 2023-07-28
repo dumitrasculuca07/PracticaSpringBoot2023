@@ -20,7 +20,7 @@
             </div>
 
             <div class="col col-2">
-                <a th:href="@{/clubsportiv/{id}/formjucatori(id=${club.id})}">
+                <a th:href="@{/clubsportiv/{id_url}/formjucatori(id_url=${club.id})}">
                     <button class="btn btn-warning" style="margin: 20px; margin-left: 10px;">Adaugă Jucator</button>
                 </a>
             </div>
@@ -55,11 +55,11 @@
             <td class="w-25" th:text="${jucator.vechime}"/>
             <td class="w-25">
                 <div class="container-fluid" style="display: flex; justify-content: center; margin: 0px">
-                    <a th:href="@{/jucatori/{id}/editjucatorform(id=${jucator.id})}">
+                    <a th:href="@{/jucatori/{id_url}/editjucatorform(id_url=${jucator.id})}">
                         <button class="btn btn-warning" style="margin: 5px">EDIT</button>
                     </a>
                     <p></p>
-                    <a th:href="@{/jucatori/{id}/stergeJucator(id=${jucator.id})}">
+                    <a th:href="@{/jucatori/{id_url}/stergeJucator(id_url=${jucator.id})}">
                         <button class="btn btn-danger" style="margin: 5px">DELETE</button>
                     </a>
                 </div>

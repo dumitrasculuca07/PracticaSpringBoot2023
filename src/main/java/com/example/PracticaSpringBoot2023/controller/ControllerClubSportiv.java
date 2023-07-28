@@ -1,37 +1,21 @@
 package com.example.PracticaSpringBoot2023.controller;
-
-import com.example.PracticaSpringBoot2023.Repository.ClubSportivRepository;
-import com.example.PracticaSpringBoot2023.Repository.JucatoriRepository;
 import com.example.PracticaSpringBoot2023.dto.ClubDto;
-import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
 import com.example.PracticaSpringBoot2023.dto.JucatoriDto;
-import com.example.PracticaSpringBoot2023.model.ClubSportiv;
-import com.example.PracticaSpringBoot2023.model.Jucatori;
 import com.example.PracticaSpringBoot2023.service.ClubService;
 import com.example.PracticaSpringBoot2023.service.JucatoriService;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
 
 @Controller
 public class ControllerClubSportiv {
-
 
     @Autowired
     private JucatoriService jucatoriService;
     @Autowired
     private ClubService clubService;
-
-
 
     //----------
     // Overview
@@ -55,43 +39,27 @@ public class ControllerClubSportiv {
     //Adauga:
     @GetMapping(value = "/clubsportiv/formclub")
     public String getEmployeeForm(Model model) {
-        ClubFormDto clubFormDto = new ClubFormDto();
 
         model.addAttribute("club", new ClubDto());
         return "formclub";
     }
 
     //Edit:
-    static int idStatic;
-    static int nrJucatori;
     @GetMapping(value = "/clubsportiv/{id}/editclubform")
     public String editClub(@PathVariable("id") int id, Model model){
 
         ClubDto club = clubService.findClubById(id);
-        idStatic = club.getId();
-        nrJucatori = club.getNrJucatori();
         model.addAttribute("club",club);
 
         return "formclub";
     }
 
     @PostMapping(value = "/clubsportiv")
-    public String submitClub(@ModelAttribute("club") ClubFormDto club, Model model) {
+    public String submitClub(@ModelAttribute("club") ClubDto club, Model model) {
 
-        if(idStatic==0){
-            clubService.saveClub(club);
-        }
-        else{
-            club.setId(idStatic);
-            club.setNrJucatori(nrJucatori);
-            clubService.saveClub(club);
-            nrJucatori=0;
-            idStatic=0;
-        }
-
+        clubService.saveClub(club);
         return "redirect:/clubsportiv";
     }
-
 
     //--------
     // DELETE
@@ -112,8 +80,9 @@ public class ControllerClubSportiv {
             jucatoriService.deleteJucatori(jucatoriiClubuluiRespectiv.get(i).getId());
         }
 
-        clubService.deleteClub(club.getId());
+        clubService.deleteClubById(club.getId());
 
         return "redirect:/clubsportiv";
     }
+
 }

@@ -1,7 +1,5 @@
 package com.example.PracticaSpringBoot2023.mapper;
-
 import com.example.PracticaSpringBoot2023.dto.ClubDto;
-import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
 import com.example.PracticaSpringBoot2023.model.ClubSportiv;
 import org.springframework.stereotype.Component;
 
@@ -25,15 +23,14 @@ public class ClubMapper {
                 .build();
     }
 
-    public ClubSportiv mapToClub(ClubFormDto clubFormDto) {
+    public ClubSportiv mapToClub(ClubDto clubDto) {
         ClubSportiv clubSportiv = ClubSportiv.builder()
-                .id(clubFormDto.getId())
-                .nume(clubFormDto.getNume())
-                .nrJucatori(clubFormDto.getNrJucatori())
-                .vechime(clubFormDto.getVechime())
-                .trofee(clubFormDto.getTrofee())
+                .id(clubDto.getId())
+                .nume(clubDto.getNume())
+                .nrJucatori(clubDto.getNrJucatori())
+                .vechime(clubDto.getVechime())
+                .trofee(clubDto.getTrofee())
                 .build();
         return clubSportiv;
     }
-
 }

@@ -1,14 +1,7 @@
 package com.example.PracticaSpringBoot2023.service;
-
-import com.example.PracticaSpringBoot2023.Repository.ClubSportivRepository;
 import com.example.PracticaSpringBoot2023.Repository.JucatoriRepository;
-import com.example.PracticaSpringBoot2023.dto.ClubDto;
-import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
 import com.example.PracticaSpringBoot2023.dto.JucatoriDto;
-import com.example.PracticaSpringBoot2023.dto.JucatoriFormDto;
-import com.example.PracticaSpringBoot2023.mapper.ClubMapper;
 import com.example.PracticaSpringBoot2023.mapper.JucatoriMapper;
-import com.example.PracticaSpringBoot2023.model.ClubSportiv;
 import com.example.PracticaSpringBoot2023.model.Jucatori;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +23,8 @@ public class JucatoriService {
     public JucatoriDto findJucatorById(int id){
         return jucatoriMapper.mapToJucatoriDto(jucatoriRepository.findById(id).get());
     }
-    public void saveJucatori(JucatoriFormDto jucatoriFormDto) {
-        Jucatori jucatori = jucatoriMapper.mapToJucatori(jucatoriFormDto);
+    public void saveJucatori(JucatoriDto jucatoriDto) {
+        Jucatori jucatori = jucatoriMapper.mapToJucatori(jucatoriDto);
         jucatoriRepository.save(jucatori);
     }
 

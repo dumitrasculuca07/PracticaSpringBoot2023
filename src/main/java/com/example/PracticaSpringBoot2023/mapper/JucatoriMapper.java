@@ -1,13 +1,8 @@
 package com.example.PracticaSpringBoot2023.mapper;
-
-import com.example.PracticaSpringBoot2023.dto.ClubDto;
-import com.example.PracticaSpringBoot2023.dto.ClubFormDto;
 import com.example.PracticaSpringBoot2023.dto.JucatoriDto;
-import com.example.PracticaSpringBoot2023.dto.JucatoriFormDto;
 import com.example.PracticaSpringBoot2023.model.ClubSportiv;
 import com.example.PracticaSpringBoot2023.model.Jucatori;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 @Component
@@ -29,14 +24,13 @@ public class JucatoriMapper {
                 .build();
     }
 
-    public Jucatori mapToJucatori(JucatoriFormDto jucatoriFormDto) {
-        Jucatori jucatori = Jucatori.builder()
-                .id(jucatoriFormDto.getId())
-                .nume(jucatoriFormDto.getNume())
-                .varsta(jucatoriFormDto.getVarsta())
-                .vechime(jucatoriFormDto.getVechime())
-                .clubsportiv(ClubSportiv.builder().id(jucatoriFormDto.getClubId()).build())
+    public Jucatori mapToJucatori(JucatoriDto jucatoriDto) {
+        return Jucatori.builder()
+                .id(jucatoriDto.getId())
+                .nume(jucatoriDto.getNume())
+                .varsta(jucatoriDto.getVarsta())
+                .vechime(jucatoriDto.getVechime())
+                .clubsportiv(ClubSportiv.builder().id(jucatoriDto.getClubId()).build())
                 .build();
-        return jucatori;
     }
 }

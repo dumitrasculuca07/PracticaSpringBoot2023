@@ -15,13 +15,14 @@
 
 <div class="container-fluid" style="margin: 20px">
     <form action="#" method="post" th:action="@{/clubsportiv/{id}(id=${club.id})}" th:object="${jucator}">
+        <input class="d-none" th:field="${jucator.clubId}" type="text">
+        <input class="d-none" th:field="${jucator.id}" type="text">
         <div class="row col-lg-12">
-
-
             <div class="form-group row">
                 <label class="col-12 col-form-label" for="Nume">Nume:</label>
                 <div>
                     <input class="form-control" th:field="${jucator.nume}" type="text">
+
                 </div>
             </div>
 
