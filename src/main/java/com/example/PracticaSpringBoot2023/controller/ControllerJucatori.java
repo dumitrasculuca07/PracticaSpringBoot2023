@@ -18,11 +18,6 @@ public class ControllerJucatori {
     private JucatoriService jucatoriService;
     @Autowired
     private ClubService clubService;
-    @Autowired
-    private ClubSportivRepository clubSportivRepository;
-    @Autowired
-    private JucatoriRepository jucatoriRepository;
-
 
     //----------
     // Overview
@@ -101,12 +96,15 @@ public class ControllerJucatori {
     @GetMapping(value = "/jucatori/{id}/stergeJucator")
     public String stergeJucator(@PathVariable("id") int id){
 
-        Jucatori jucator = jucatoriRepository.findById(id).get();
-        int idClub = jucator.getClubsportiv().getId();
-        jucator.getClubsportiv().setNrJucatori(jucator.getClubsportiv().getNrJucatori()-1);
+        JucatoriDto jucator = jucatoriService.findJucatorById(id);
+        int idClub = jucator.getClubId();
 
-        clubSportivRepository.save(jucator.getClubsportiv());
-        jucatoriRepository.delete(jucator);
+        ClubDto club = clubService.findClubById(idClub);
+
+        club.setNrJucatori(club.getNrJucatori()-1);
+
+        clubService.saveClub(club);
+        jucatoriService.deleteJucatori(jucator.getId());
 
         return String.format("redirect:/clubsportiv/%d", idClub);
     }
