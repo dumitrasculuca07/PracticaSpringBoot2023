@@ -31,7 +31,6 @@ public class SecurityConfiguration {
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/clubsportiv").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/register").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/clubsportiv/*").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/clubsportiv/formclub").hasRole("ADMIN")
                         .requestMatchers("/clubsportiv/*/editclubform").hasRole( "ADMIN")
                         .requestMatchers("/clubsportiv/*/stergeClub").hasRole( "ADMIN")
